@@ -1,0 +1,23 @@
+{
+  "name": "@trailforge/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Routing-Adapter, Metriken, Ranking und GPX — plattformunabhängig",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:live": "vitest run --config vitest.live.config.ts",
+    "profiles:sync": "node --experimental-strip-types scripts/sync-profiles.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}
