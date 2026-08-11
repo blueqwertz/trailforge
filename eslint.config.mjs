@@ -10,12 +10,26 @@ export default tseslint.config(
       '**/.next/**',
       '**/coverage/**',
       '**/.tmp/**',
+      // Von scripts/copy-maplibre-worker.mjs abgelegte Fremdbibliothek.
+      'apps/web/public/**',
       '**/playwright-report/**',
       '**/test-results/**',
     ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    // Hilfsskripte laufen in Node, nicht im Browser.
+    files: ['**/scripts/**/*.{js,mjs,ts}', '**/*.config.{js,mjs}'],
+    languageOptions: {
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        fetch: 'readonly',
+        setTimeout: 'readonly',
+      },
+    },
+  },
   {
     rules: {
       '@typescript-eslint/consistent-type-imports': [
