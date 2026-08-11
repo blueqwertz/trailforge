@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 
 import { Sidebar } from '@/components/sidebar';
@@ -25,7 +26,7 @@ function PlannerLayout() {
   return (
     <div data-sport={state.sport} className="bg-bg relative h-dvh w-full overflow-hidden">
       <div className="absolute inset-0">
-        <MapPlaceholder />
+        <MapView />
       </div>
 
       <header className="pointer-events-none absolute inset-x-0 top-0 z-20 flex items-start justify-between p-3">
@@ -49,9 +50,14 @@ function PlannerLayout() {
   );
 }
 
-/** Platzhalter, bis die Karte eingebunden ist. */
-function MapPlaceholder() {
-  return (
+/**
+ * MapLibre greift beim Aufbau auf `window` zu und wird deshalb erst im Browser
+ * geladen. Die Karte ist ohnehin nichts, was serverseitig vorgerendert werden
+ * könnte.
+ */
+const MapView = dynamic(() => import('@/components/map/map-view').then((m) => m.MapView), {
+  ssr: false,
+  loading: () => (
     <div
       aria-hidden
       className="h-full w-full"
@@ -62,5 +68,5 @@ function MapPlaceholder() {
         backgroundSize: '32px 32px',
       }}
     />
-  );
-}
+  ),
+});

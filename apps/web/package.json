@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "maplibre:worker": "node scripts/copy-maplibre-worker.mjs",
+    "predev": "pnpm maplibre:worker",
+    "prebuild": "pnpm maplibre:worker",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
