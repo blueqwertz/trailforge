@@ -1,0 +1,92 @@
+{
+  "app": {
+    "name": "TrailForge",
+    "tagline": "Routen für Wandern, Laufen, Rennrad und Mountainbike",
+    "attribution": "Kartendaten © OpenStreetMap-Mitwirkende"
+  },
+  "sport": {
+    "label": "Sportart",
+    "hiking": "Wandern",
+    "running": "Laufen",
+    "road": "Rennrad",
+    "mtb": "Mountainbike"
+  },
+  "preference": {
+    "label": "Route soll sein",
+    "shortest": "kürzeste",
+    "fastest": "schnellste",
+    "scenic": "schönste",
+    "quiet": "ruhigste",
+    "description": {
+      "shortest": "Der direkte Weg, ohne Rücksicht auf Höhenmeter.",
+      "fastest": "Die geringste Fahr- oder Gehzeit.",
+      "scenic": "Wald, Wasser und ausgeschilderte Routen.",
+      "quiet": "Weg von großen Straßen, Lärm und Ortsdurchfahrten."
+    }
+  },
+  "waypoints": {
+    "label": "Wegpunkte",
+    "start": "Start",
+    "destination": "Ziel",
+    "via": "Zwischenziel",
+    "search": "Ort oder Adresse suchen",
+    "empty": "Klicke auf die Karte, um den Start zu setzen.",
+    "hint": "Ein weiterer Klick setzt das Ziel. Punkte lassen sich verschieben.",
+    "remove": "Wegpunkt entfernen",
+    "reverse": "Richtung umkehren",
+    "clear": "Alle Wegpunkte löschen"
+  },
+  "metrics": {
+    "distance": "Länge",
+    "duration": "Dauer",
+    "ascent": "Aufstieg",
+    "descent": "Abstieg",
+    "surface": "Untergrund",
+    "traffic": "Verkehr",
+    "nature": "Naturwege",
+    "signed": "Ausgeschildert",
+    "difficulty": "Schwierigkeit",
+    "elevationProfile": "Höhenprofil",
+    "surfaceKind": {
+      "paved": "befestigt",
+      "compacted": "wassergebunden",
+      "natural": "naturbelassen",
+      "unknown": "unbekannt"
+    },
+    "sac": "SAC-Stufe T{level}",
+    "mtbScale": "MTB-Stufe S{level}"
+  },
+  "alternatives": {
+    "label": "Alternativen",
+    "longer": "{value} länger",
+    "shorter": "{value} kürzer",
+    "slower": "{value} langsamer",
+    "faster": "{value} schneller",
+    "lessTraffic": "{value} weniger Verkehr",
+    "moreTraffic": "{value} mehr Verkehr",
+    "moreNature": "{value} mehr Naturwege",
+    "lessNature": "{value} weniger Naturwege",
+    "identical": "praktisch gleich"
+  },
+  "actions": {
+    "download": "GPX herunterladen",
+    "share": "Link kopieren",
+    "shareCopied": "Link kopiert",
+    "recalculate": "Neu berechnen",
+    "theme": "Erscheinungsbild wechseln",
+    "language": "Sprache"
+  },
+  "status": {
+    "calculating": "Route wird berechnet …",
+    "candidates": "{count, plural, one {# Variante} other {# Varianten}} geprüft"
+  },
+  "errors": {
+    "title": "Das hat nicht geklappt",
+    "unreachable": "Mindestens ein Punkt liegt zu weit von einem Weg entfernt. Verschiebe ihn näher an eine Straße oder einen Weg.",
+    "noConnection": "Zwischen diesen Punkten gibt es keine durchgehende Verbindung.",
+    "tooLong": "Die Strecke ist für den Routing-Dienst zu lang. Setze ein Zwischenziel oder kürze die Strecke.",
+    "service": "Der Routing-Dienst antwortet gerade nicht. Bitte später erneut versuchen.",
+    "generic": "Es konnte keine Route berechnet werden.",
+    "retry": "Erneut versuchen"
+  }
+}

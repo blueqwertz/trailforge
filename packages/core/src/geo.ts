@@ -1,4 +1,4 @@
-import type { LngLat, RoutePoint } from './types.js';
+import type { LngLat, RoutePoint } from './types';
 
 const EARTH_RADIUS_M = 6_371_008.8;
 

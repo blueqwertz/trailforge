@@ -1,5 +1,5 @@
-import { compareRoutes, rankCandidates } from '../src/ranking.js';
-import type { Preference, Route, RouteMetrics } from '../src/types.js';
+import { compareRoutes, rankCandidates } from '../src/ranking';
+import type { Preference, Route, RouteMetrics } from '../src/types';
 
 interface Stub {
   id: string;

@@ -1,5 +1,5 @@
-import { cumulativeDistances } from './geo.js';
-import { computeMetrics } from './metrics.js';
+import { cumulativeDistances } from './geo';
+import { computeMetrics } from './metrics';
 import type {
   LngLat,
   Preference,
@@ -9,7 +9,7 @@ import type {
   Sport,
   TurnCommand,
   TurnInstruction,
-} from './types.js';
+} from './types';
 
 export const BROUTER_BASE_URL = 'https://brouter.de/brouter';
 

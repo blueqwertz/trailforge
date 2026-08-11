@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 
-import { gpxFileName, routeToGpx } from '../src/gpx.js';
-import type { Route } from '../src/types.js';
+import { gpxFileName, routeToGpx } from '../src/gpx';
+import type { Route } from '../src/types';
 
 /** Baut eine kleine, aber vollständige Route für Tests. Überschreibbar. */
 function makeRoute(overrides: Partial<Route> = {}): Route {

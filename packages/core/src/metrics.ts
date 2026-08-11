@@ -1,5 +1,5 @@
-import { estimateDuration } from './duration.js';
-import { cumulativeDistances, smoothElevation } from './geo.js';
+import { estimateDuration } from './duration';
+import { cumulativeDistances, smoothElevation } from './geo';
 import type {
   GradientBuckets,
   RouteMetrics,
@@ -8,7 +8,7 @@ import type {
   Sport,
   SurfaceBreakdown,
   WayTypeBreakdown,
-} from './types.js';
+} from './types';
 
 /**
  * Ableitung aller Kennzahlen aus einer BRouter-Antwort.

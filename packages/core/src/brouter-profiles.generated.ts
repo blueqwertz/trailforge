@@ -1,5 +1,5 @@
 // Generiert von scripts/sync-profiles.ts — nicht von Hand bearbeiten.
-import type { BrfParameter } from './brf-parser.js';
+import type { BrfParameter } from './brf-parser';
 
 export const BROUTER_PROFILE_PARAMETERS: Readonly<Record<string, readonly BrfParameter[]>> = {
   fastbike: [

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { parseBrfParameters } from '../src/brf-parser.js';
+import { parseBrfParameters } from '../src/brf-parser';
 
 const testDir = dirname(fileURLToPath(import.meta.url));
 

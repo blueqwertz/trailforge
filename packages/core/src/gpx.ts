@@ -5,7 +5,7 @@
  * Modul unverändert im Browser, in Node und in React Native funktioniert.
  */
 
-import type { Route, RoutePoint, Sport, TurnCommand } from './types.js';
+import type { Route, RoutePoint, Sport, TurnCommand } from './types';
 
 export interface GpxOptions {
   /** Name des Tracks, Standard: aus Sportart und Länge abgeleitet */

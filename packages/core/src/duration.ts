@@ -1,5 +1,5 @@
-import { cumulativeDistances, smoothElevation } from './geo.js';
-import type { RoutePoint, RouteSegment, Sport } from './types.js';
+import { cumulativeDistances, smoothElevation } from './geo';
+import type { RoutePoint, RouteSegment, Sport } from './types';
 
 /**
  * Einheitliche Zeitschätzung für alle Kandidaten.

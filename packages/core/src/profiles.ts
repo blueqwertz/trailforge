@@ -1,5 +1,5 @@
-import { profileSupportsParameter } from './brouter-profiles.generated.js';
-import type { Preference, Sport } from './types.js';
+import { profileSupportsParameter } from './brouter-profiles.generated';
+import type { Preference, Sport } from './types';
 
 /**
  * Zuordnung von Sportart und Präferenz auf konkrete BRouter-Anfragen.

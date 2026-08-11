@@ -1,7 +1,7 @@
-import { BrouterError, fetchBrouterRoute, type FetchOptions } from './brouter.js';
-import { buildCandidates } from './profiles.js';
-import { rankCandidates } from './ranking.js';
-import type { Route, RouteRequest, RouteResult } from './types.js';
+import { BrouterError, fetchBrouterRoute, type FetchOptions } from './brouter';
+import { buildCandidates } from './profiles';
+import { rankCandidates } from './ranking';
+import type { Route, RouteRequest, RouteResult } from './types';
 
 /**
  * Verbindet Profilmatrix, Abruf und Ranking zu einer Routenberechnung.

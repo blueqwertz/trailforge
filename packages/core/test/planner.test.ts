@@ -1,9 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-import { BrouterError } from '../src/brouter.js';
-import { planRoute } from '../src/planner.js';
-import { buildCandidates } from '../src/profiles.js';
+import { BrouterError } from '../src/brouter';
+import { planRoute } from '../src/planner';
+import { buildCandidates } from '../src/profiles';
 
 const FIXTURES = [
   'brouter-trekking-munich',

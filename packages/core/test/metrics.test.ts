@@ -1,6 +1,6 @@
-import { computeMetrics } from '../src/metrics.js';
-import type { RoutePoint, RouteSegment, Sport } from '../src/types.js';
-import { routeFromFixture } from './brouter.test.js';
+import { computeMetrics } from '../src/metrics';
+import type { RoutePoint, RouteSegment, Sport } from '../src/types';
+import { routeFromFixture } from './brouter.test';
 
 /** Gerade Strecke nach Osten mit vorgegebenem Höhenverlauf. */
 function line(pointCount: number, spacingMeters: number, elevations?: number[]): RoutePoint[] {

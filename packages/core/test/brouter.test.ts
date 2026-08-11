@@ -7,8 +7,8 @@ import {
   parseTags,
   translateBrouterError,
   BrouterError,
-} from '../src/brouter.js';
-import type { Preference, Sport } from '../src/types.js';
+} from '../src/brouter';
+import type { Preference, Sport } from '../src/types';
 
 export function loadFixture(name: string): unknown {
   const path = fileURLToPath(new URL(`./fixtures/${name}.json`, import.meta.url));

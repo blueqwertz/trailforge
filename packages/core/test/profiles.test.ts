@@ -1,14 +1,11 @@
-import {
-  BROUTER_PROFILE_NAMES,
-  profileSupportsParameter,
-} from '../src/brouter-profiles.generated.js';
+import { BROUTER_PROFILE_NAMES, profileSupportsParameter } from '../src/brouter-profiles.generated';
 import {
   buildCandidates,
   candidateSignature,
   sanitizeParameters,
   usedProfiles,
-} from '../src/profiles.js';
-import { PREFERENCES, SPORTS } from '../src/types.js';
+} from '../src/profiles';
+import { PREFERENCES, SPORTS } from '../src/types';
 
 describe('Profilmatrix', () => {
   it('verwendet nur Profile, die es auf dem Server auch gibt', () => {

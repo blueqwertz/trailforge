@@ -1,5 +1,5 @@
-import { planRoute } from '../src/planner.js';
-import type { Preference } from '../src/types.js';
+import { planRoute } from '../src/planner';
+import type { Preference } from '../src/types';
 
 /**
  * Contract-Tests gegen die echten Dienste.

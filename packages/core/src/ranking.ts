@@ -1,4 +1,4 @@
-import type { Preference, Route, RouteResult } from './types.js';
+import type { Preference, Route, RouteResult } from './types';
 
 /**
  * Auswahl des besten Kandidaten.

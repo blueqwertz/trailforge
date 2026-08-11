@@ -1,0 +1,92 @@
+{
+  "app": {
+    "name": "TrailForge",
+    "tagline": "Routes for hiking, running, road cycling and mountain biking",
+    "attribution": "Map data © OpenStreetMap contributors"
+  },
+  "sport": {
+    "label": "Activity",
+    "hiking": "Hiking",
+    "running": "Running",
+    "road": "Road bike",
+    "mtb": "Mountain bike"
+  },
+  "preference": {
+    "label": "Route should be",
+    "shortest": "shortest",
+    "fastest": "fastest",
+    "scenic": "most scenic",
+    "quiet": "quietest",
+    "description": {
+      "shortest": "The direct way, regardless of climbing.",
+      "fastest": "The least riding or walking time.",
+      "scenic": "Forest, water and waymarked routes.",
+      "quiet": "Away from main roads, noise and towns."
+    }
+  },
+  "waypoints": {
+    "label": "Waypoints",
+    "start": "Start",
+    "destination": "Destination",
+    "via": "Via",
+    "search": "Search for a place or address",
+    "empty": "Click the map to set the start.",
+    "hint": "Another click sets the destination. Points can be dragged.",
+    "remove": "Remove waypoint",
+    "reverse": "Reverse direction",
+    "clear": "Clear all waypoints"
+  },
+  "metrics": {
+    "distance": "Distance",
+    "duration": "Duration",
+    "ascent": "Ascent",
+    "descent": "Descent",
+    "surface": "Surface",
+    "traffic": "Traffic",
+    "nature": "Natural paths",
+    "signed": "Waymarked",
+    "difficulty": "Difficulty",
+    "elevationProfile": "Elevation profile",
+    "surfaceKind": {
+      "paved": "paved",
+      "compacted": "compacted",
+      "natural": "natural",
+      "unknown": "unknown"
+    },
+    "sac": "SAC grade T{level}",
+    "mtbScale": "MTB grade S{level}"
+  },
+  "alternatives": {
+    "label": "Alternatives",
+    "longer": "{value} longer",
+    "shorter": "{value} shorter",
+    "slower": "{value} slower",
+    "faster": "{value} faster",
+    "lessTraffic": "{value} less traffic",
+    "moreTraffic": "{value} more traffic",
+    "moreNature": "{value} more natural paths",
+    "lessNature": "{value} fewer natural paths",
+    "identical": "practically identical"
+  },
+  "actions": {
+    "download": "Download GPX",
+    "share": "Copy link",
+    "shareCopied": "Link copied",
+    "recalculate": "Recalculate",
+    "theme": "Switch appearance",
+    "language": "Language"
+  },
+  "status": {
+    "calculating": "Calculating route …",
+    "candidates": "{count, plural, one {# candidate} other {# candidates}} evaluated"
+  },
+  "errors": {
+    "title": "That did not work",
+    "unreachable": "At least one point is too far from any way. Move it closer to a road or path.",
+    "noConnection": "There is no continuous connection between these points.",
+    "tooLong": "The route is too long for the routing service. Add a via point or shorten it.",
+    "service": "The routing service is not responding right now. Please try again later.",
+    "generic": "No route could be calculated.",
+    "retry": "Try again"
+  }
+}
