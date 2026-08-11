@@ -11,6 +11,7 @@ import {
   ScaleControl,
   setWorkerUrl,
 } from 'maplibre-gl';
+import type { Route, Sport } from '@trailforge/core';
 import { useEffect, useRef } from 'react';
 
 import {
@@ -26,6 +27,7 @@ import {
   waymarkedTilesFor,
 } from '@/lib/map-style';
 import { usePlanner } from '@/lib/planner-store';
+import { SPORT_ACCENT } from '@/lib/sport-colors';
 import {
   distanceAtIndex,
   insertIndexFor,
@@ -95,7 +97,19 @@ export function MapView() {
       'bottom-right',
     );
 
-    map.on('load', () => addCustomLayers(map, stateRef.current.sport));
+    // Bewusst `style.load` und nicht `load`: Letzteres wartet zusätzlich
+    // darauf, dass alle Kacheln der Startansicht geladen sind, und blieb im
+    // Test wiederholt aus — die eigenen Ebenen wären dann nie entstanden.
+    // Zum Anlegen von Quellen und Ebenen genügt der geladene Stil.
+    const onStyleLoad = () => {
+      addCustomLayers(map, stateRef.current.sport, stateRef.current.route);
+      // Erzwingt einen Frame; ohne ihn bleibt die Fläche gelegentlich leer,
+      // obwohl Stil und Kacheln vollständig geladen sind.
+      map.resize();
+    };
+
+    if (map.isStyleLoaded()) onStyleLoad();
+    else map.on('style.load', onStyleLoad);
 
     if (process.env.NODE_ENV === 'development') {
       // Zugriff auf die Karteninstanz in der Konsole, um Stil und Ebenen zu prüfen.
@@ -105,8 +119,13 @@ export function MapView() {
 
     // Ein Klick ins Leere setzt den nächsten Wegpunkt.
     map.on('click', (event) => {
-      const features = map.queryRenderedFeatures(event.point, { layers: [ROUTE_HIT_LAYER] });
-      if (features.length > 0) return;
+      // Solange der Stil noch lädt, gibt es die Trefferebene nicht — sie
+      // abzufragen wirft dann eine Ausnahme und würde den Klick verschlucken.
+      const hitsRoute =
+        map.getLayer(ROUTE_HIT_LAYER) !== undefined &&
+        map.queryRenderedFeatures(event.point, { layers: [ROUTE_HIT_LAYER] }).length > 0;
+
+      if (hitsRoute) return;
 
       dispatchRef.current({
         type: 'addWaypoint',
@@ -135,14 +154,27 @@ export function MapView() {
     const map = mapRef.current;
     if (!map) return;
 
-    const draw = () => {
+    const draw = (): boolean => {
       const source = map.getSource(ROUTE_SOURCE_ID) as GeoJSONSource | undefined;
-      if (!source) return;
+      if (!source) return false;
+
       source.setData(state.route ? routeToGeoJson(state.route) : EMPTY_LINE);
+      return true;
     };
 
-    if (map.isStyleLoaded()) draw();
-    else map.once('idle', draw);
+    if (draw()) return;
+
+    // Die Quelle entsteht erst, wenn der Stil geladen ist. Trifft die Route
+    // vorher ein, wird gewartet, bis es sie gibt — ein einmaliges `once('idle')`
+    // reicht dafür nicht, weil der Leerlauf auch vor dem Anlegen eintreten kann.
+    const retry = () => {
+      if (draw()) map.off('styledata', retry);
+    };
+    map.on('styledata', retry);
+
+    return () => {
+      map.off('styledata', retry);
+    };
   }, [state.route]);
 
   // --- Ausschnitt an neue Routen anpassen ----------------------------------
@@ -172,8 +204,12 @@ export function MapView() {
 
     const update = () => {
       const source = map.getSource(WAYMARKED_SOURCE_ID) as RasterTileSource | undefined;
-      if (!source) return;
-      source.setTiles(waymarkedTilesFor(state.sport));
+      if (source) source.setTiles(waymarkedTilesFor(state.sport));
+
+      // Die Route trägt die Farbe der Sportart.
+      if (map.getLayer(ROUTE_LINE_LAYER)) {
+        map.setPaintProperty(ROUTE_LINE_LAYER, 'line-color', SPORT_ACCENT[state.sport]);
+      }
     };
 
     if (map.isStyleLoaded()) update();
@@ -297,7 +333,7 @@ export function MapView() {
  * Die Schummerung kommt unter die Beschriftungen, damit Ortsnamen lesbar
  * bleiben; die Route liegt über allem, weil sie das eigentliche Ergebnis ist.
  */
-function addCustomLayers(map: MapLibreMap, sport: Parameters<typeof waymarkedSource>[0]) {
+function addCustomLayers(map: MapLibreMap, sport: Sport, route: Route | null) {
   const firstSymbolLayer = map.getStyle().layers?.find((layer) => layer.type === 'symbol')?.id;
 
   if (!map.getSource(TERRAIN_SOURCE_ID)) {
@@ -331,7 +367,10 @@ function addCustomLayers(map: MapLibreMap, sport: Parameters<typeof waymarkedSou
   }
 
   if (!map.getSource(ROUTE_SOURCE_ID)) {
-    map.addSource(ROUTE_SOURCE_ID, { type: 'geojson', data: EMPTY_LINE });
+    map.addSource(ROUTE_SOURCE_ID, {
+      type: 'geojson',
+      data: route ? routeToGeoJson(route) : EMPTY_LINE,
+    });
 
     map.addLayer({
       id: ROUTE_CASING_LAYER,
@@ -351,7 +390,7 @@ function addCustomLayers(map: MapLibreMap, sport: Parameters<typeof waymarkedSou
       source: ROUTE_SOURCE_ID,
       layout: { 'line-cap': 'round', 'line-join': 'round' },
       paint: {
-        'line-color': routeColor(),
+        'line-color': SPORT_ACCENT[sport],
         'line-width': ['interpolate', ['linear'], ['zoom'], 8, 2.5, 14, 5],
       },
     });
@@ -366,13 +405,6 @@ function addCustomLayers(map: MapLibreMap, sport: Parameters<typeof waymarkedSou
       paint: { 'line-color': '#000000', 'line-opacity': 0, 'line-width': 18 },
     });
   }
-}
-
-/** Die Akzentfarbe der Sportart steht als CSS-Variable am Wurzelelement. */
-function routeColor(): string {
-  if (typeof window === 'undefined') return '#b91c1c';
-  const value = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-  return value.length > 0 ? value : '#b91c1c';
 }
 
 function createWaypointElement(index: number, total: number): HTMLElement {

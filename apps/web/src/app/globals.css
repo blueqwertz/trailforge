@@ -28,11 +28,16 @@
   --color-base-900: oklch(19.2% 0.005 65);
   --color-base-950: oklch(13.4% 0.004 65);
 
-  /* Je Sportart ein Akzent, gleiche wahrgenommene Helligkeit. */
-  --color-hiking: oklch(52% 0.11 142);
-  --color-running: oklch(58% 0.14 62);
-  --color-road: oklch(52% 0.19 27);
-  --color-mtb: oklch(52% 0.1 195);
+  /*
+   * Je Sportart ein Akzent, gleiche wahrgenommene Helligkeit. Die maßgeblichen
+   * Werte stehen in `src/lib/sport-colors.ts` und werden zur Laufzeit als
+   * `--accent` gesetzt; hier stehen sie nur für Bausteine, die eine feste
+   * Sportfarbe brauchen.
+   */
+  --color-hiking: #4d7c3f;
+  --color-running: #b45309;
+  --color-road: #b91c1c;
+  --color-mtb: #0f766e;
 
   /* Zustände */
   --color-danger: oklch(52% 0.19 27);

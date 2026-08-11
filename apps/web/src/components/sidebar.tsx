@@ -4,6 +4,7 @@ import { PREFERENCES, SPORTS, type Preference, type Sport } from '@trailforge/co
 import { Bike, Footprints, MapPin, Mountain, MountainSnow, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { RouteSummary } from '@/components/route-summary';
 import { SegmentedControl, type SegmentedOption } from '@/components/segmented-control';
 import { usePlanner } from '@/lib/planner-store';
 
@@ -56,6 +57,8 @@ export function Sidebar() {
       </p>
 
       <WaypointList />
+
+      <RouteSummary />
     </div>
   );
 }

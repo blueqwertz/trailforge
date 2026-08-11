@@ -3,8 +3,11 @@
 import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 
+import { ElevationProfile } from '@/components/elevation-profile';
 import { Sidebar } from '@/components/sidebar';
 import { PlannerProvider, usePlanner } from '@/lib/planner-store';
+import { useRouteRequest } from '@/lib/use-route-request';
+import { useUrlState } from '@/lib/use-url-state';
 
 /**
  * Rahmen der Anwendung: Karte über die volle Fläche, Bedienung als
@@ -23,6 +26,9 @@ function PlannerLayout() {
   const t = useTranslations();
   const { state } = usePlanner();
 
+  useUrlState();
+  useRouteRequest();
+
   return (
     <div data-sport={state.sport} className="bg-bg relative h-dvh w-full overflow-hidden">
       <div className="absolute inset-0">
@@ -40,6 +46,15 @@ function PlannerLayout() {
       <aside className="border-border-ui bg-panel absolute bottom-4 left-3 top-16 z-10 flex w-[320px] max-w-[calc(100vw-1.5rem)] flex-col overflow-hidden rounded-[var(--radius-panel)] border shadow-[var(--ui-shadow)]">
         <Sidebar />
       </aside>
+
+      {state.route ? (
+        <section
+          aria-label={t('metrics.elevationProfile')}
+          className="border-border-ui bg-panel absolute bottom-4 left-[352px] right-14 z-10 overflow-hidden rounded-[var(--radius-panel)] border px-3 pt-1 shadow-[var(--ui-shadow)]"
+        >
+          <ElevationProfile />
+        </section>
+      ) : null}
 
       <footer className="text-ink-faint pointer-events-none absolute bottom-3 right-3 z-10 text-[11px]">
         <span className="bg-panel/80 pointer-events-auto rounded px-1.5 py-0.5 backdrop-blur-sm">
