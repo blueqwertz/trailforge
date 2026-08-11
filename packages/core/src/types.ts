@@ -78,8 +78,18 @@ export interface GradientBuckets {
 export interface RouteMetrics {
   /** Länge in Metern. */
   distance: number;
-  /** Fahr- bzw. Gehzeit in Sekunden, aus dem kinematischen Modell des Profils. */
+  /**
+   * Geschätzte Fahr- bzw. Gehzeit in Sekunden, gerechnet mit einem für alle
+   * Kandidaten identischen Modell. Nur dadurch sind sie vergleichbar — siehe
+   * `duration.ts`.
+   */
   duration: number;
+  /**
+   * Zeit, die BRouter selbst meldet. Hängt vom kinematischen Modell des
+   * jeweiligen Profils ab und taugt deshalb nicht zum Vergleich, ist aber für
+   * die Fehlersuche nützlich.
+   */
+  profileDuration: number;
   ascent: number;
   descent: number;
   minElevation: number;

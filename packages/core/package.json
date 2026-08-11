@@ -17,6 +17,7 @@
     "profiles:sync": "node --experimental-strip-types scripts/sync-profiles.ts"
   },
   "devDependencies": {
+    "@types/node": "^22.15.0",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"
   }

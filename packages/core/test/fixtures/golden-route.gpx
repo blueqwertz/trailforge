@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="TrailForge" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Rennrad 12 km</name>
+    <time>2026-07-28T12:00:00Z</time>
+    <copyright author="OpenStreetMap contributors">
+      <license>https://opendatacommons.org/licenses/odbl/</license>
+    </copyright>
+  </metadata>
+  <wpt lat="48.137000" lon="11.575000">
+    <name>Wegpunkt 1</name>
+  </wpt>
+  <wpt lat="48.139900" lon="11.580300">
+    <name>Wegpunkt 2</name>
+  </wpt>
+  <trk>
+    <name>Rennrad 12 km</name>
+    <type>road</type>
+    <trkseg>
+      <trkpt lat="48.137000" lon="11.575000">
+        <ele>519.0</ele>
+      </trkpt>
+      <trkpt lat="48.137500" lon="11.576000">
+        <ele>520.4</ele>
+      </trkpt>
+      <trkpt lat="48.138100" lon="11.577200">
+        <ele>522.1</ele>
+      </trkpt>
+      <trkpt lat="48.139000" lon="11.578900">
+        <ele>518.7</ele>
+      </trkpt>
+      <trkpt lat="48.139900" lon="11.580300">
+        <ele>515.2</ele>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>
