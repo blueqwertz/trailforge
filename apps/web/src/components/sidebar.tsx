@@ -4,6 +4,9 @@ import { PREFERENCES, SPORTS, type Preference, type Sport } from '@trailforge/co
 import { Bike, Footprints, MapPin, Mountain, MountainSnow, Trash2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { Alternatives } from '@/components/alternatives';
+import { MetricsDetail } from '@/components/metrics-detail';
+import { RouteActions } from '@/components/route-actions';
 import { RouteSummary } from '@/components/route-summary';
 import { SegmentedControl, type SegmentedOption } from '@/components/segmented-control';
 import { usePlanner } from '@/lib/planner-store';
@@ -37,29 +40,44 @@ export function Sidebar() {
   }));
 
   return (
-    <div className="flex h-full flex-col gap-5 overflow-y-auto p-4">
-      <SegmentedControl
-        label={t('sport.label')}
-        options={sportOptions}
-        value={state.sport}
-        onChange={(sport) => dispatch({ type: 'setSport', sport })}
-      />
+    <>
+      {/*
+       * Der Inhalt rollt, die Aktionen bleiben stehen. Der GPX-Export ist das
+       * Ziel des ganzen Ablaufs und darf nicht unter der Falz verschwinden,
+       * sobald die Kennzahlen dazukommen.
+       */}
+      <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-4">
+        <SegmentedControl
+          label={t('sport.label')}
+          options={sportOptions}
+          value={state.sport}
+          onChange={(sport) => dispatch({ type: 'setSport', sport })}
+        />
 
-      <SegmentedControl
-        label={t('preference.label')}
-        options={preferenceOptions}
-        value={state.preference}
-        onChange={(preference) => dispatch({ type: 'setPreference', preference })}
-      />
+        <SegmentedControl
+          label={t('preference.label')}
+          options={preferenceOptions}
+          value={state.preference}
+          onChange={(preference) => dispatch({ type: 'setPreference', preference })}
+        />
 
-      <p className="text-ink-muted -mt-3 text-[12px] leading-snug">
-        {t(`preference.description.${state.preference}`)}
-      </p>
+        <p className="text-ink-muted -mt-3 text-[12px] leading-snug">
+          {t(`preference.description.${state.preference}`)}
+        </p>
 
-      <WaypointList />
+        <WaypointList />
 
-      <RouteSummary />
-    </div>
+        <RouteSummary />
+        <MetricsDetail />
+        <Alternatives />
+      </div>
+
+      {state.route ? (
+        <div className="border-border-ui border-t p-3">
+          <RouteActions />
+        </div>
+      ) : null}
+    </>
   );
 }
 

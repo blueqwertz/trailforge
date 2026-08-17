@@ -14,10 +14,10 @@ export function RouteSummary() {
 
   if (state.status === 'loading') {
     return (
-      <div className="flex items-center gap-2 rounded-md border border-border-ui px-3 py-3 text-[12px] text-ink-muted">
+      <div className="border-border-ui text-ink-muted flex items-center gap-2 rounded-md border px-3 py-3 text-[12px]">
         <span
           aria-hidden
-          className="h-3 w-3 animate-spin rounded-full border-[1.5px] border-border-strong border-t-[var(--accent)]"
+          className="border-border-strong h-3 w-3 animate-spin rounded-full border-[1.5px] border-t-[var(--accent)]"
         />
         {t('status.calculating')}
       </div>
@@ -26,9 +26,9 @@ export function RouteSummary() {
 
   if (state.status === 'error') {
     return (
-      <div className="rounded-md border border-danger/30 bg-danger/5 px-3 py-3">
-        <p className="text-[12px] font-medium text-danger">{t('errors.title')}</p>
-        <p className="mt-1 text-[12px] leading-snug text-ink-muted">
+      <div className="border-danger/30 bg-danger/5 rounded-md border px-3 py-3">
+        <p className="text-danger text-[12px] font-medium">{t('errors.title')}</p>
+        <p className="text-ink-muted mt-1 text-[12px] leading-snug">
           {state.errorKey ? t(state.errorKey) : t('errors.generic')}
         </p>
       </div>
@@ -80,7 +80,7 @@ function Figure({
 }) {
   return (
     <div>
-      <dt className="flex items-center gap-1 text-[11px] text-ink-faint">
+      <dt className="text-ink-faint flex items-center gap-1 text-[11px]">
         {icon}
         {label}
       </dt>

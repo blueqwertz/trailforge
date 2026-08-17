@@ -57,6 +57,10 @@ export function SegmentedControl<T extends string>({
                 type="radio"
                 name={name}
                 value={option.value}
+                // Das umschließende Label genügt der Spezifikation, aber
+                // Werkzeuge lasen stattdessen den technischen Wert vor.
+                aria-label={option.label}
+                {...(option.description ? { 'aria-description': option.description } : {})}
                 checked={checked}
                 onChange={() => onChange(option.value)}
                 className="sr-only"

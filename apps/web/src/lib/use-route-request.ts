@@ -65,7 +65,8 @@ export function useRouteRequest(): void {
       clearTimeout(timer);
       controller.abort();
     };
-    // Der Zähler steht stellvertretend für jede Änderung an der Eingabe.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Nur der Zähler steht in der Abhängigkeitsliste: er ändert sich bei jeder
+    // Eingabe, die eine Neuberechnung verlangt, und nur dann. Die übrigen
+    // Werte werden gelesen, dürfen den Effekt aber nicht selbst auslösen.
   }, [requestId]);
 }

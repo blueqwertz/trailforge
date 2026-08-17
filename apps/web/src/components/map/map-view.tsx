@@ -360,7 +360,9 @@ function addCustomLayers(map: MapLibreMap, sport: Sport, route: Route | null) {
         id: WAYMARKED_LAYER_ID,
         type: 'raster',
         source: WAYMARKED_SOURCE_ID,
-        paint: { 'raster-opacity': 0.55 },
+        // Zurückhaltend: die Überlagerung zeigt jedes Wegzeichen und würde bei
+        // voller Deckkraft die eigene Route und die Beschriftung übertönen.
+        paint: { 'raster-opacity': 0.35 },
       },
       firstSymbolLayer,
     );

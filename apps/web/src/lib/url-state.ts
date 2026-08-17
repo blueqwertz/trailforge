@@ -58,7 +58,10 @@ export function decodeUrlState(search: string): Partial<UrlState> {
       .split(';')
       .map((pair) => {
         const [lat, lng] = pair.split(',').map(Number);
-        return lat !== undefined && lng !== undefined && Number.isFinite(lat) && Number.isFinite(lng)
+        return lat !== undefined &&
+          lng !== undefined &&
+          Number.isFinite(lat) &&
+          Number.isFinite(lng)
           ? { lat, lng }
           : null;
       })

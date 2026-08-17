@@ -88,6 +88,38 @@ export function scoreRoute(route: Route, preference: Preference, reference: Refe
 }
 
 /**
+ * Höchster Anteil unbefestigter Strecke, der auf einem Rennrad zumutbar ist.
+ */
+const MAX_UNPAVED_SHARE_ROAD = 0.2;
+
+/** Anteil der Strecke ohne feste Decke, 0 bis 1. */
+function unpavedShare(route: Route): number {
+  const { surface } = route.metrics;
+  const total = surface.paved + surface.compacted + surface.natural + surface.unknown;
+  if (total <= 0) return 0;
+  return (surface.compacted + surface.natural) / total;
+}
+
+/**
+ * Entfernt Kandidaten, die zur Sportart nicht passen.
+ *
+ * Das ist kein Abwägen, sondern eine Bedingung: Ein Rennrad fährt keine
+ * 37 Prozent Schotter, so ruhig die Strecke auch sein mag. Genau das ist ohne
+ * diese Prüfung passiert — die ruhigste Rennradroute führte über Feldwege,
+ * weil dort nun einmal kein Verkehr ist.
+ *
+ * Gefiltert wird nur, solange etwas übrig bleibt. Wer mitten im Wald startet,
+ * bekommt lieber eine unpassende Route als gar keine.
+ */
+function filterUnsuitable(routes: Route[]): Route[] {
+  const first = routes[0];
+  if (!first || first.sport !== 'road') return routes;
+
+  const suitable = routes.filter((route) => unpavedShare(route) <= MAX_UNPAVED_SHARE_ROAD);
+  return suitable.length > 0 ? suitable : routes;
+}
+
+/**
  * Wirft Kandidaten weg, die praktisch dieselbe Strecke beschreiben.
  *
  * Verschiedene Profile führen oft zum identischen Ergebnis. Solche Dubletten
@@ -129,7 +161,9 @@ function shapeSignature(route: Route): string {
  * Die Reihenfolge ist bei Gleichstand stabil über die Routen-Kennung.
  */
 export function rankCandidates(candidates: Route[], preference: Preference): RouteResult {
-  const routes = deduplicate(candidates.filter((route) => route.points.length > 1));
+  const routes = filterUnsuitable(
+    deduplicate(candidates.filter((route) => route.points.length > 1)),
+  );
 
   const first = routes[0];
   if (!first) {

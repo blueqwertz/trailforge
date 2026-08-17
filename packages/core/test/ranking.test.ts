@@ -7,11 +7,23 @@ interface Stub {
   duration: number;
   traffic?: number;
   nature?: number;
+  /** Anteil ohne feste Decke, 0 bis 1. */
+  unpaved?: number;
+  sport?: Route['sport'];
   /** Verschiebt den Verlauf, damit zwei Kandidaten nicht als Dublette gelten. */
   offset?: number;
 }
 
-function route({ id, distance, duration, traffic = 0.3, nature = 0.3, offset = 0 }: Stub): Route {
+function route({
+  id,
+  distance,
+  duration,
+  traffic = 0.3,
+  nature = 0.3,
+  unpaved = 0,
+  sport = 'road',
+  offset = 0,
+}: Stub): Route {
   const metrics: RouteMetrics = {
     distance,
     duration,
@@ -20,7 +32,12 @@ function route({ id, distance, duration, traffic = 0.3, nature = 0.3, offset = 0
     descent: 0,
     minElevation: 500,
     maxElevation: 500,
-    surface: { paved: distance, compacted: 0, natural: 0, unknown: 0 },
+    surface: {
+      paved: distance * (1 - unpaved),
+      compacted: distance * unpaved,
+      natural: 0,
+      unknown: 0,
+    },
     wayTypes: { road: distance, cycleway: 0, track: 0, path: 0, steps: 0, other: 0 },
     gradients: { steepDown: 0, down: 0, flat: distance, up: 0, steepUp: 0 },
     trafficExposure: traffic,
@@ -34,7 +51,7 @@ function route({ id, distance, duration, traffic = 0.3, nature = 0.3, offset = 0
 
   return {
     id,
-    sport: 'road',
+    sport,
     preference: 'fastest',
     profile: 'test',
     points: [
@@ -113,6 +130,71 @@ describe('Umweg-Abzug', () => {
 
     // 80 Prozent länger für 25 Prozentpunkte weniger Verkehr: lohnt sich nicht.
     expect(rank([direct, detour], 'quiet')[0]).toBe('direkt');
+  });
+});
+
+describe('Eignung für die Sportart', () => {
+  it('verwirft Schotterrouten für das Rennrad, auch wenn sie ruhiger sind', () => {
+    const paved = route({ id: 'asphalt', distance: 40_000, duration: 5700, traffic: 0.1 });
+    const gravel = route({
+      id: 'schotter',
+      distance: 39_300,
+      duration: 6600,
+      traffic: 0.06,
+      unpaved: 0.37,
+      offset: 1,
+    });
+
+    const result = rankCandidates([paved, gravel], 'quiet');
+    expect(result.best.id).toBe('asphalt');
+    // Der untaugliche Kandidat wird nicht als Alternative angeboten.
+    expect(result.alternatives).toHaveLength(0);
+  });
+
+  it('lässt geringe Schotteranteile zu', () => {
+    const mostlyPaved = route({
+      id: 'wenig-schotter',
+      distance: 40_000,
+      duration: 5800,
+      traffic: 0.05,
+      unpaved: 0.15,
+    });
+    const busy = route({
+      id: 'viel-verkehr',
+      distance: 39_000,
+      duration: 5600,
+      traffic: 0.5,
+      offset: 1,
+    });
+
+    expect(rank([mostlyPaved, busy], 'quiet')[0]).toBe('wenig-schotter');
+  });
+
+  it('greift nur beim Rennrad', () => {
+    const gravel = route({
+      id: 'schotter',
+      distance: 20_000,
+      duration: 5000,
+      traffic: 0.05,
+      unpaved: 0.8,
+      sport: 'mtb',
+    });
+    const road = route({
+      id: 'strasse',
+      distance: 19_000,
+      duration: 4200,
+      traffic: 0.6,
+      sport: 'mtb',
+      offset: 1,
+    });
+
+    expect(rank([gravel, road], 'quiet')[0]).toBe('schotter');
+  });
+
+  it('behält untaugliche Kandidaten, wenn es keine anderen gibt', () => {
+    const gravel = route({ id: 'nur-schotter', distance: 10_000, duration: 2000, unpaved: 0.9 });
+
+    expect(rankCandidates([gravel], 'quiet').best.id).toBe('nur-schotter');
   });
 });
 

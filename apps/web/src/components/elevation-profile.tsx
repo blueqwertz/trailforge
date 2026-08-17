@@ -44,10 +44,7 @@ export function ElevationProfile() {
     return () => observer.disconnect();
   }, []);
 
-  const profile = useMemo(
-    () => (state.route ? buildProfile(state.route) : null),
-    [state.route],
-  );
+  const profile = useMemo(() => (state.route ? buildProfile(state.route) : null), [state.route]);
 
   const geometry = useMemo(
     () => (profile && width > 0 ? buildPaths(profile, width) : null),
@@ -112,11 +109,12 @@ export function ElevationProfile() {
         </svg>
       ) : null}
 
-      <div className="tnum pointer-events-none absolute inset-x-0 bottom-0 flex justify-between text-[10px] text-ink-faint">
+      <div className="tnum text-ink-faint pointer-events-none absolute inset-x-0 bottom-0 flex justify-between text-[10px]">
         <span>{formatElevation(profile.minElevation, locale)}</span>
         {state.hoverDistance !== null && hoverElevation !== null ? (
-          <span className="font-medium text-ink">
-            {formatDistance(state.hoverDistance, locale)} · {formatElevation(hoverElevation, locale)}
+          <span className="text-ink font-medium">
+            {formatDistance(state.hoverDistance, locale)} ·{' '}
+            {formatElevation(hoverElevation, locale)}
           </span>
         ) : null}
         <span>{formatElevation(profile.maxElevation, locale)}</span>
