@@ -90,12 +90,11 @@ export function MapView() {
       dragRotate: false,
     });
 
-    map.addControl(new NavigationControl({ showCompass: false }), 'bottom-right');
+    // Oben rechts, weil der untere Bildschirmrand auf schmalen Geräten dem
+    // Bedienblatt gehört — die Quellenangabe muss aber sichtbar bleiben.
+    map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
+    map.addControl(new AttributionControl({ compact: true }), 'top-right');
     map.addControl(new ScaleControl({ maxWidth: 96, unit: 'metric' }), 'bottom-left');
-    map.addControl(
-      new AttributionControl({ compact: true, customAttribution: [] }),
-      'bottom-right',
-    );
 
     // Bewusst `style.load` und nicht `load`: Letzteres wartet zusätzlich
     // darauf, dass alle Kacheln der Startansicht geladen sind, und blieb im
@@ -189,12 +188,17 @@ export function MapView() {
     fittedRouteId.current = key;
 
     const bounds = routeBounds(state.route);
-    if (bounds) {
-      map.fitBounds(bounds, {
-        padding: { top: 80, bottom: 140, left: 360, right: 60 },
-        speed: 1.6,
-      });
-    }
+    if (!bounds) return;
+
+    // Der Rand hängt davon ab, wo die Bedienung liegt: links als Spalte oder
+    // unten als Blatt. Ohne diese Unterscheidung verschwindet die Route auf
+    // dem Telefon hinter dem Bedienfeld.
+    const wide = window.matchMedia('(min-width: 768px)').matches;
+    const padding = wide
+      ? { top: 80, bottom: 140, left: 360, right: 60 }
+      : { top: 72, bottom: Math.round(window.innerHeight * 0.62) + 24, left: 24, right: 24 };
+
+    map.fitBounds(bounds, { padding, speed: 1.6 });
   }, [state.route]);
 
   // --- Wege-Überlagerung an die Sportart anpassen --------------------------

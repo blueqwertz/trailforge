@@ -43,24 +43,29 @@ function PlannerLayout() {
         </div>
       </header>
 
-      <aside className="border-border-ui bg-panel absolute bottom-4 left-3 top-16 z-10 flex w-[320px] max-w-[calc(100vw-1.5rem)] flex-col overflow-hidden rounded-[var(--radius-panel)] border shadow-[var(--ui-shadow)]">
+      {/*
+       * Auf schmalen Geräten liegt die Bedienung als Blatt am unteren Rand und
+       * lässt die obere Bildschirmhälfte für die Karte frei; ab mittlerer
+       * Breite wird daraus die schwebende Spalte links.
+       */}
+      <aside className="border-border-ui bg-panel absolute inset-x-0 bottom-0 z-10 flex max-h-[62dvh] flex-col overflow-hidden rounded-t-[var(--radius-panel)] border-t shadow-[var(--ui-shadow)] md:inset-x-auto md:bottom-4 md:left-3 md:top-16 md:max-h-none md:w-[320px] md:rounded-[var(--radius-panel)] md:border">
         <Sidebar />
       </aside>
 
       {state.route ? (
         <section
           aria-label={t('metrics.elevationProfile')}
-          className="border-border-ui bg-panel absolute bottom-4 left-[352px] right-14 z-10 overflow-hidden rounded-[var(--radius-panel)] border px-3 pt-1 shadow-[var(--ui-shadow)]"
+          className="border-border-ui bg-panel absolute inset-x-3 bottom-[calc(62dvh+0.5rem)] z-10 overflow-hidden rounded-[var(--radius-panel)] border px-3 pt-1 shadow-[var(--ui-shadow)] md:inset-x-auto md:bottom-4 md:left-[352px] md:right-14"
         >
           <ElevationProfile />
         </section>
       ) : null}
 
-      <footer className="text-ink-faint pointer-events-none absolute bottom-3 right-3 z-10 text-[11px]">
-        <span className="bg-panel/80 pointer-events-auto rounded px-1.5 py-0.5 backdrop-blur-sm">
-          {t('app.attribution')}
-        </span>
-      </footer>
+      {/*
+       * Die Quellenangabe kommt von MapLibres eigenem Bedienelement oben
+       * rechts. Eine zweite an anderer Stelle wäre nicht nur doppelt, sondern
+       * läge auf schmalen Geräten auch unter dem Bedienblatt.
+       */}
     </div>
   );
 }
