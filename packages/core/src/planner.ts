@@ -14,6 +14,11 @@ import type { Route, RouteRequest, RouteResult } from './types';
 
 export interface PlanOptions extends FetchOptions {
   /**
+   * Adresse des Routing-Dienstes. Für den Dauerbetrieb gehört hier ein eigener
+   * BRouter hin statt des ehrenamtlich betriebenen öffentlichen.
+   */
+  baseUrl?: string;
+  /**
    * Gleichzeitige Anfragen an BRouter. brouter.de wird ehrenamtlich betrieben,
    * deshalb bewusst niedrig.
    */
@@ -49,6 +54,7 @@ export async function planRoute(
             profile: candidate.profile,
             parameters: candidate.parameters,
             alternativeIndex: candidate.alternativeIndex,
+            ...(options.baseUrl ? { baseUrl: options.baseUrl } : {}),
           },
           {
             id,

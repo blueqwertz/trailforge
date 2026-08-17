@@ -78,6 +78,19 @@ describe('planRoute', () => {
     }
   });
 
+  it('spricht auf Wunsch einen eigenen Routing-Dienst an', async () => {
+    const { fetchStub, urls } = stubFetch();
+
+    await planRoute(
+      { waypoints, sport: 'road', preference: 'fastest' },
+      { fetch: fetchStub, baseUrl: 'http://localhost:17777/brouter' },
+    );
+
+    for (const url of urls) {
+      expect(url.startsWith('http://localhost:17777/brouter?')).toBe(true);
+    }
+  });
+
   it('kommt mit einzelnen fehlgeschlagenen Kandidaten zurecht', async () => {
     let call = 0;
     const fetchStub = (() => {

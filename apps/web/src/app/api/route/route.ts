@@ -51,7 +51,12 @@ export async function POST(request: Request): Promise<NextResponse> {
   }
 
   try {
-    const result = await planRoute(parsed.data, { timeoutMs: 45_000 });
+    const result = await planRoute(parsed.data, {
+      timeoutMs: 45_000,
+      // Ohne eigene Adresse bleibt es beim öffentlichen Dienst; für den
+      // Dauerbetrieb siehe docs/self-hosting.md.
+      ...(process.env['BROUTER_BASE_URL'] ? { baseUrl: process.env['BROUTER_BASE_URL'] } : {}),
+    });
     const body = toResponseBody(result);
     cache.set(key, body);
     return NextResponse.json(body, { headers: { 'X-Cache': 'miss' } });
